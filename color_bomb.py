@@ -19,23 +19,25 @@ def connected_colours(matrix):
     counter = 0
     for row, row_list in enumerate(matrix):
         for column, colour in enumerate(row_list):
-            if colour != 0:
+            if colour != 'Checked':
                 get_whole_group(colour, row, column, row_len, column_len, matrix)
                 counter += 1
     return counter
 
 
 def get_whole_group(colour, row, column, row_len, column_len, matrix):
-    neighbours = set()
+    neighbours = []
     for r in range(0, row_len):
         for c in range(0, column_len):
-            if matrix[r][c] != 0:
+            if matrix[r][c] != 'Checked':
                 current_colour = matrix[r][c]
                 if colour == current_colour and r in range(row - 1, row + 2) and c in range(column - 1, column + 2):
-                    neighbours.add((r, c))
-                    matrix[r][c] = 0
-    for neigh in neighbours:
-        get_whole_group(colour, neigh[0], neigh[1], row_len, column_len, matrix)
+                    neighbours.append((r, c))
+                    matrix[r][c] = 'Checked'
+    for neighbour in neighbours:
+        row = neighbour[0]
+        column = neighbour[1]
+        get_whole_group(colour, row, column, row_len, column_len, matrix)
 
 
 matrix = create_matrix()
